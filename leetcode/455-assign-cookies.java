@@ -15,3 +15,4 @@ class Solution {
 }
 
 // 让最大的cookie先满足最greedy的娃
+// O(n), n = i or j, depending on the value comparing. 
