@@ -1,45 +1,53 @@
-class SortByStart implements Comparator<int[]>{
-    public int compare(int[] a, int[] b){
-        return a[0] - b[0]; 
-    }
-}
-
-class SortByEnd implements Comparator<int[]>{
-    public int compare(int[] a, int[] b){
-        return a[1] - b[1]; 
-    }
-}
+// class SortByFreq implements Comparator<int[]>{
+//     public int compare(int a[], int b[]){
+//         return b[1] - a[1]; 
+//     }
+// }
 
 class Solution {
-    public int minMeetingRooms(int[][] intervals) {
-        if (intervals.length < 2){
-            return intervals.length;
+    public int leastInterval(char[] tasks, int n) {
+        if(tasks.length < 1){
+            return 0; 
         }
-        int i = 0; 
-        PriorityQueue<int[]> pq = new PriorityQueue<int[]>(new SortByEnd()); 
-        Arrays.sort(intervals, new SortByStart()); 
-        while (i < intervals.length){
-            if(pq.size() == 0 || intervals[i][0] < pq.peek()[1]){
-                pq.add(intervals[i]); 
-            } else {
-                pq.poll(); 
-                pq.add(intervals[i]); 
+
+        int[] f = new int[26]; 
+        // int[x, y]: x is 'A'-'A', y is frequence
+        for(int i = 0; i < tasks.length; i++){
+            f[tasks[i] - 'A']++; // freq
+        }
+        
+        int maxFreq = 0, p = -1;
+        for(int i = 0; i < 26; i++){
+            if(maxFreq < f[i]){
+                maxFreq = f[i]; 
+                p = i; 
             }
-            // if(intervals[j][0] > intervals[i][1])
-            i++; 
         }
-        return pq.size(); 
+        int maxIdle = (maxFreq - 1) * n;        // 4
+        int others = tasks.length - maxFreq;    // 3
+
+        for (int i = 0; i < 26 && f[i] > 0 && maxIdle > 0; i++){
+            if(p == i){
+                continue;
+            }
+            if(f[i] < maxFreq){
+                maxIdle = Math.max(maxIdle - f[i], 0); 
+            } else{
+                maxIdle = Math.max(maxIdle - maxFreq + 1, 0);   // 2
+            }
+            System.out.println("maxIdle: " + maxIdle); 
+        }
+        
+        return maxIdle + others + maxFreq; 
+      
     }
-}
+} 
 
-// 与meeting room1不同，光靠比较sort后相邻的end/start已经不够用。
+// 思路原理：
+// 1. 找出idle slots最大可能的值
+// 2. 试着交替用其他task填补idle slots
+// 3. 填完后，剩下的元素即使还有相同的，也不会产生更多idle slot，可以找到插空的位置。就可以直接加上剩余个数了。
 
-// 需要sort+queue
-// 或者直接priority queue
-
-// 关键：
-// 新meeting start与目前[最先结束的meeting（而不是相邻上一个）] end比较，
-// 被比较者的选取与开始顺序无关，只与结束end先后有关。
-
-// start>end, do nothing; 
-// start<=end, room++, 
+// 填补slots代码关键：
+// 1. max frequency的字母需要跳过
+// 2. 同为max frequency的其他字母需要特殊处理，并不能全部填入idle slots， e.g. AAABBB
