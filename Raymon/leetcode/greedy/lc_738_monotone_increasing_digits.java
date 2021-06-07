@@ -1,4 +1,4 @@
-package Raymon;
+package greedy;
 
 public class lc_738_monotone_increasing_digits {
     int num[] = new int[10];
