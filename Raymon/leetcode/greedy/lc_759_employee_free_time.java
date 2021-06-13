@@ -22,7 +22,7 @@ class Interval {
 };
 
 
-class greedy.Solution {
+class greedy.two_pointer.two_pointer.two_pointer.two_pointer.two_pointer.Solution {
     public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {
 
     //首先创建一个ascending priority queue,然后根据schedule的start time来排序

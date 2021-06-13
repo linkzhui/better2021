@@ -1,3 +1,5 @@
+package two_pointer;
+
 public class Solution {
     public int lengthOfLongestSubstring(String s) {
         int n = s.length(), ans = 0;

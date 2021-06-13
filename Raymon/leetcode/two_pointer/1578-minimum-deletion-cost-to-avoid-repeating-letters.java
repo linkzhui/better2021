@@ -1,3 +1,5 @@
+package two_pointer;
+
 class Solution {
     public int minCost(String s, int[] cost) {
         if (s.length() < 2) {
