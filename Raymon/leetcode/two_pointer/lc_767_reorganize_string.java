@@ -1,4 +1,4 @@
-package greedy;
+package two_pointer;
 
 import java.util.PriorityQueue;
 
