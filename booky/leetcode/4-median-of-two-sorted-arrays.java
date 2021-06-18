@@ -39,3 +39,4 @@ class Solution {
 // 2. #3条件要完备，勿漏
 // 3. 下一层findKth()时，应找删去k/2剩余的第 (k-k/2)，而不是第k/2
 
+// Reference: https://www.cnblogs.com/grandyang/p/4465932.html
